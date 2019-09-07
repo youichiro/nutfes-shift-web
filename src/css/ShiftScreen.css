@@ -1,0 +1,66 @@
+.table {
+  border-collapse: separate;
+  border: 1;
+  border-spacing: 0;
+}
+.thead {
+  /* 縦スクロール時に固定する */
+  position: -webkit-sticky;
+  position: sticky;
+  top: 50px;
+  /* tbody内のセルより手前に表示する */
+  z-index: 1;
+}
+.th {
+  /* 縦スクロール時に固定する */
+  position: -webkit-sticky;
+  position: sticky;
+  top: 50px;
+  /* tbody内のセルより手前に表示する */
+  z-index: 1;
+  border-collapse: separate;
+  border: 1px solid#F2F2F2;
+  background-color: #fffafa;
+}
+.th-first-child {
+  /* 横スクロール時に固定する */
+  position: -webkit-sticky;
+  position: sticky;
+  left: 64px;
+  background-color: white;
+  border-collapse: separate;
+  border: 1px solid#F2F2F2;
+}
+.thead-th-first-child {
+  /* 横スクロール時に固定する */
+  position: absolute;
+  left: 64px;
+  top: 50px;
+  width: 106px;
+  height: 61px;
+  /* ヘッダー行内の他のセルより手前に表示する */
+  z-index: 2;
+  background-color: white;
+}
+.nameCell {
+  font-size: 12px;
+  width: 80px;
+  height: 34px;
+  text-align: center;
+  justify-content: center;
+}
+.td {
+  border-collapse: separate;
+  border: 1px solid#F2F2F2;
+}
+.taskCell {
+  height: 5px;
+  font-size: 12px;
+  text-align: center;
+}
+.timeCell {
+  font-size: 12px;
+  height: 6px;
+  width: 80px;
+  text-align: center;
+}
