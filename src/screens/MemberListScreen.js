@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Header from '../components/Header';
 import SideMenu from '../components/SideMenu';
-import '../css/MemberListScreen.css';
 
 
 const env = require('../env.json').PRODUCTION;
