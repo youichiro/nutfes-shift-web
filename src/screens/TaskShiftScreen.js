@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { withRouter, Link } from 'react-router-dom'
 import Dialog from 'react-bootstrap-dialog';
-import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
-
 import Header from '../components/Header';
 import SideMenu from '../components/SideMenu';
 import '../css/ShiftScreen.css';
@@ -32,13 +30,14 @@ const TIMES = {
 }
 
 
-class ShiftScreen extends Component {
+class TaskShiftScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
       shiftData: null,
-      sheetID: null,
       taskDetailVisible: false,
+      sheetID: null,
+      taskName: null,
       taskDetails: {
         name: '',
         belong: '',
@@ -52,53 +51,25 @@ class ShiftScreen extends Component {
         end_time_id: null,
       },
       currentTimeID: null,
-      username: null,
-      weather: null,
     };
     this.onTaskClick = this.onTaskClick.bind(this);
   }
   async componentDidMount() {
     this.setCurrentTime();
-    await this.setWeather();
-    await this.setSheetID();
+    const params = new URLSearchParams(this.props.location.search);
+    const sheetID = params.get('sheetID');
+    const taskName = params.get('taskName');
+    await this.setState({ sheetID: sheetID, taskName: taskName });
     await this.setShiftData();
   }
-  async setWeather() {
-    const request = axios.create({
-      baseURL: env.WEATHER_API_URL,
-      responseType: 'json',
-    });
-    await request.get()
-      .then(res => {
-        this.setState({ weather: res.data });
-      })
-      .catch(error => {
-        alert('APIの呼び出しに失敗しました');
-        console.log(error);
-      })
-  }
-  async setSheetID() {
-    // 現在の日付に応じてsheetIDを変更
-    const date = new Date().getDate();
-    const month = new Date().getMonth() + 1;
-    let sheetID = this.state.weather === '晴' ? 3 : 4; // デフォルトで1日目を表示
-    if (month === 9) {
-      switch (date) {
-        case 13:
-          sheetID = this.state.weather === '晴' ? 1 : 2;  // 準備日
-          break;
-        case 14:
-          sheetID = this.state.weather === '晴' ? 3 : 4; // 1日目
-          break;
-        case 15:
-          sheetID = this.state.weather === '晴' ? 5 : 6; // 2日目
-          break;
-        case 16:
-          sheetID = this.state.weather === '晴' ? 7 : 8; // 片付け日
-          break;
-      }
+  async componentWillReceiveProps(nextProps) {
+    if (nextProps.location !== this.props.location) {
+      const params = new URLSearchParams(nextProps.location.search);
+      const sheetID = params.get('sheetID');
+      const taskName = params.get('taskName');
+      await this.setState({ sheetID: sheetID, taskName: taskName });
+      await this.setShiftData();
     }
-    await this.setState({ sheetID: sheetID });
   }
   setCurrentTime() {
     setInterval(() => {
@@ -112,22 +83,18 @@ class ShiftScreen extends Component {
   }
   async setShiftData() {
     this.setState({ shiftData: null });
-    let shiftData = [];
-    for (let sheetID in SHEET_DIC) {
-      const request = axios.create({
-        baseURL: `${env.SHIFT_DATA_API_BASE_URL}/${sheetID}`,
-        responseType: 'json',
+    const request = axios.create({
+      baseURL: `${env.TASK_SHIFT_DATA_API_BASE_URL}/${this.state.sheetID}/${this.state.taskName}`,
+      responseType: 'json',
+    });
+    await request.get()
+      .then(res => {
+        this.setState({ shiftData: res.data });
+      })
+      .catch(error => {
+        alert('APIの呼び出しに失敗しました');
+        console.log(error);
       });
-      await request.get()
-        .then(res => {
-          shiftData.push(res.data);
-        })
-        .catch(error => {
-          alert('APIの呼び出しに失敗しました');
-          console.log(error);
-        });
-    }
-    this.setState({ shiftData: shiftData });
   }
   setSameTimeMembers(sheet_name, task_name, start_time_id, end_time_id) {
     if (this.state.taskDetailVisible) {
@@ -159,36 +126,11 @@ class ShiftScreen extends Component {
         })
     }
   }
-  renderSheetSelectBox() {
-    return (
-      <form style={{ display: 'flex', flexWrap: 'wrap' }} autoComplete='off'>
-        <FormControl>
-          <InputLabel htmlFor='age-simple'>シート</InputLabel>
-          <Select
-            value={this.state.sheetID}
-            onChange={ async(e) => {
-              await this.setState({ sheetID: e.target.value });
-            }}
-            renderValue={value => <span style={{ fontSize: 10 }}>{SHEET_DIC[value]}</span>}
-          >
-            <MenuItem value={1}>準備日晴れ</MenuItem>
-            <MenuItem value={2}>準備日雨</MenuItem>
-            <MenuItem value={3}>1日目晴れ</MenuItem>
-            <MenuItem value={4}>1日目雨</MenuItem>
-            <MenuItem value={5}>2日目晴れ</MenuItem>
-            <MenuItem value={6}>2日目雨</MenuItem>
-            <MenuItem value={7}>片付け日晴れ</MenuItem>
-            <MenuItem value={8}>片付け日雨</MenuItem>
-          </Select>
-        </FormControl>
-      </form>
-    )
-  }
   renderShiftTable() {
-    let shifts = this.state.shiftData[this.state.sheetID-1].data;
-    let ths = [<th className="thead-th-first-child"><div>{this.renderSheetSelectBox()}</div></th>];
+    let shifts = this.state.shiftData.data;
+    let ths = [<th className="thead-th-first-child"></th>];
     let rows = [];
-    for(let time in TIMES){
+    for (let time in TIMES) {
       let currentTimeStyle = null;
       if (this.state.currentTimeID === TIMES[time]) {
         currentTimeStyle = { backgroundColor: 'coral' };
@@ -203,20 +145,30 @@ class ShiftScreen extends Component {
         <th className="th">
           <div className="nameCell">
             <span style={{ color: data.belong.color }}>{data.belong.category_name}</span>
-            <br/>
+            <br />
             {data.name}
           </div>
         </th>
       );
       data.tasks.forEach((task, j) => {
-        let taskCellStyle = { backgroundColor: task.color };
+        let backgroundColor = '';
+        let fontColor = 'black';
+        if (task.name === this.state.taskName) {
+          backgroundColor = task.color === 'white' ? 'lightpink' : task.color;
+        } else if (!task.name) {
+          backgroundColor = 'white';
+        } else {
+          backgroundColor = '#F5F5F5F5';
+          fontColor = 'gray';
+        }
+        let taskCellStyle = { backgroundColor: backgroundColor, fontColor: fontColor };
         if (task.name) {
           if (this.state.currentTimeID >= task.start_time_id && this.state.currentTimeID <= task.end_time_id && task.name !== '×') {
             taskCellStyle = Object.assign(taskCellStyle, { borderWidth: 1, borderColor: 'red' });
           }
           rows[row_num].push(
             <td style={taskCellStyle} className="td" rowSpan={task.n_cell}
-              onClick={ async() => {
+              onClick={async () => {
                 await this.setState({
                   taskDetailVisible: true,
                   taskDetails: {
@@ -235,7 +187,7 @@ class ShiftScreen extends Component {
                 this.onTaskClick();
               }}
             >
-              <div className="taskCell" style={{ height: 16 * task.n_cell }}>{task.name}</div>
+              <div className="taskCell">{task.name}</div>
             </td>
           );
           if (task.n_cell > 1) {
@@ -359,7 +311,7 @@ class ShiftScreen extends Component {
     if (this.state.shiftData === null) {
       return <p>Loading...</p>
     }
-    const title = <span>全体シフト {SHEET_DIC[this.state.sheetID]}</span>;
+    const title = <span>タスクシフト: {this.state.taskName} ({SHEET_DIC[this.state.sheetID]})</span>;
     return (
       <div style={{ width: '100vw', height: '100vh', overflow: 'auto' }}>
         <Header title={title} />
@@ -373,4 +325,4 @@ class ShiftScreen extends Component {
   }
 }
 
-export default withRouter(ShiftScreen);
+export default withRouter(TaskShiftScreen);

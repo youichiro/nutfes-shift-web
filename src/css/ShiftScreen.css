@@ -44,7 +44,7 @@
 }
 .nameCell {
   font-size: 12px;
-  width: 80px;
+  width: 100px;
   height: 34px;
   text-align: center;
   justify-content: center;
@@ -54,9 +54,13 @@
   border: 1px solid#F2F2F2;
 }
 .taskCell {
-  height: 5px;
   font-size: 12px;
   text-align: center;
+  width: 100px;
+  overflow: scroll;
+  white-space: pre-line;
+  text-overflow: ellipsis;
+  text-decoration: none;
 }
 .timeCell {
   font-size: 12px;

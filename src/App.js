@@ -5,11 +5,12 @@ import axios from 'axios';
 import Auth from './components/Auth';
 import LoginScreen from './screens/LoginScreen';
 import ShiftScreen from './screens/ShiftScreen';
+import TaskShiftScreen from './screens/TaskShiftScreen';
 import ManualListScreen from './screens/ManualListScreen';
 import MemberListScreen from './screens/MemberListScreen';
 import ContactScreen from './screens/ContactScreen';
 
-const env = require('./env.json').LOCAL;
+const env = require('./env.json').PRODUCTION;
 
 
 export default class App extends Component {
@@ -61,6 +62,7 @@ export default class App extends Component {
                 path='/shift'
                 render={() => <ShiftScreen username={this.state.username} />}
               />
+              <Route path='/task_shift' component={TaskShiftScreen} />
               <Route path='/manual' component={ManualListScreen} />
               <Route path='/members' component={MemberListScreen} />
               <Route path='/contacts' component={ContactScreen} />
