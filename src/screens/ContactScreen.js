@@ -4,7 +4,7 @@ import { Card, CardActions, CardContent, Button, Typography } from '@material-ui
 import renderHTML from 'react-render-html';
 import Header from '../components/Header';
 import SideMenu from '../components/SideMenu';
-import '../css/ContactScreen.css';
+
 
 const env = require('../env.json').PRODUCTION;
 

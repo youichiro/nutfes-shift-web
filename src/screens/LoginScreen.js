@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { Button,  Form, FormGroup, Input } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
-
-import '../css/LoginScreen.css';
 import NutfesLogo from '../components/NutfesLogo';
+import '../css/LoginScreen.css';
 
 
 class LoginScreen extends Component {

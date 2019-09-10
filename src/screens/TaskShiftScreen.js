@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { withRouter, Link } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import Dialog from 'react-bootstrap-dialog';
 import Header from '../components/Header';
 import SideMenu from '../components/SideMenu';

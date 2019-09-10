@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { withRouter, Link } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import Dialog from 'react-bootstrap-dialog';
 import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
-
 import Header from '../components/Header';
 import SideMenu from '../components/SideMenu';
 import '../css/ShiftScreen.css';
