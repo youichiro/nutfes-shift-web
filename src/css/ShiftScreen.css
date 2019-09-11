@@ -57,7 +57,7 @@
   font-size: 12px;
   text-align: center;
   width: 100px;
-  overflow: scroll;
+  overflow: hidden;
   white-space: pre-line;
   text-overflow: ellipsis;
   text-decoration: none;

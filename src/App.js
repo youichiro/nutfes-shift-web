@@ -17,8 +17,8 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoggedIn: true,
       username: null,
+      isLoggedIn: localStorage.getItem('isLoggedIn') || false,
     };
     this.handleLogin = this.handleLogin.bind(this);
   }
@@ -29,9 +29,12 @@ export default class App extends Component {
     await this.getUsername(email);
 
     if (this.state.username && password === env.PASSWORD) {
-      this.setState({ isLoggedIn: true });
+      await localStorage.setItem('isLoggedIn', 'true');
+      await this.setState({ isLoggedIn: true });
     } else {
       alert('メールアドレスもしくはパスワードが違います');
+      await localStorage.removeItem('isLoggedIn');
+      await this.setState({ isLoggedIn: false })
     }
   }
   async getUsername(email) {
@@ -56,7 +59,6 @@ export default class App extends Component {
         <BrowserRouter>
           <Switch>
             <Route exact path='/' render={() => <LoginScreen handleLogin={this.handleLogin} />} />
-            <Route path='/login' render={() => <LoginScreen handleLogin={this.handleLogin} />} />
             <Auth currentUser={{ isLoggedIn: this.state.isLoggedIn }}>
               <Route
                 path='/shift'
