@@ -6,7 +6,7 @@ import Header from '../components/Header';
 import SideMenu from '../components/SideMenu';
 import '../css/ShiftScreen.css';
 
-const env = require('../env.json').LOCAL;
+const env = require('../env.json').PRODUCTION;
 const SHEET_DIC = {
   1: '準備日晴れ',
   2: '準備日雨',
