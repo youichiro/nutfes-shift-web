@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom'
 import Dialog from 'react-bootstrap-dialog';
-import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
+import { FormControl, Select } from '@material-ui/core';
 import Header from '../components/Header';
 import SideMenu from '../components/SideMenu';
 import '../css/ShiftScreen.css';
 
-const env = require('../env.json').LOCAL;
+const env = require('../env.json').PRODUCTION;
 const SHEET_DIC = {
   1: '準備日晴れ',
   2: '準備日雨',
