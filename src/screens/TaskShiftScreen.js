@@ -6,7 +6,7 @@ import Header from '../components/Header';
 import SideMenu from '../components/SideMenu';
 import '../css/ShiftScreen.css';
 
-const env = require('../env.json').PRODUCTION;
+const env = require('../env.json').LOCAL;
 const SHEET_DIC = {
   1: '準備日晴れ',
   2: '準備日雨',
@@ -161,7 +161,7 @@ class TaskShiftScreen extends Component {
           backgroundColor = '#F5F5F5F5';
           fontColor = 'gray';
         }
-        let taskCellStyle = { backgroundColor: backgroundColor, fontColor: fontColor };
+        let taskCellStyle = { backgroundColor: backgroundColor };
         if (task.name) {
           if (this.state.currentTimeID >= task.start_time_id && this.state.currentTimeID <= task.end_time_id && task.name !== '×') {
             taskCellStyle = Object.assign(taskCellStyle, { borderWidth: 1, borderColor: 'red' });
@@ -187,7 +187,7 @@ class TaskShiftScreen extends Component {
                 this.onTaskClick();
               }}
             >
-              <div className="taskCell">{task.name}</div>
+              <div className="taskCell" style={{ color: fontColor }}>{task.name}</div>
             </td>
           );
           if (task.n_cell > 1) {
