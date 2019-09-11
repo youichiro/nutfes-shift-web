@@ -7,7 +7,7 @@ import Header from '../components/Header';
 import SideMenu from '../components/SideMenu';
 import '../css/ShiftScreen.css';
 
-const env = require('../env.json').PRODUCTION;
+const env = require('../env.json').LOCAL;
 const SHEET_DIC = {
   1: '準備日晴れ',
   2: '準備日雨',
@@ -162,13 +162,11 @@ class ShiftScreen extends Component {
     return (
       <form style={{ display: 'flex', flexWrap: 'wrap' }} autoComplete='off'>
         <FormControl>
-          <InputLabel htmlFor='age-simple'>シート</InputLabel>
           <Select
             value={this.state.sheetID}
             onChange={ async(e) => {
               await this.setState({ sheetID: e.target.value });
             }}
-            renderValue={value => <span style={{ fontSize: 10 }}>{SHEET_DIC[value]}</span>}
           >
             <MenuItem value={1}>準備日晴れ</MenuItem>
             <MenuItem value={2}>準備日雨</MenuItem>
@@ -185,7 +183,8 @@ class ShiftScreen extends Component {
   }
   renderShiftTable() {
     let shifts = this.state.shiftData[this.state.sheetID-1].data;
-    let ths = [<th className="thead-th-first-child"><div>{this.renderSheetSelectBox()}</div></th>];
+    let ths = [<th className="thead-th-first-child"></th>];
+    // let ths = [<th></th>];
     let rows = [];
     for(let time in TIMES){
       let currentTimeStyle = null;
@@ -253,7 +252,7 @@ class ShiftScreen extends Component {
 
     return (
       <table className="table">
-        <thead className="thead">
+        <thead>
           <tr> {ths} </tr>
         </thead>
         <tbody>
@@ -358,7 +357,12 @@ class ShiftScreen extends Component {
     if (this.state.shiftData === null) {
       return <p>Loading...</p>
     }
-    const title = <span>全体シフト {SHEET_DIC[this.state.sheetID]}</span>;
+    const title = (
+      <div style={{ display: 'flex', flexDirection: 'row'}}>
+        <span style={{ marginRight: 10 }}>全体シフト: </span>
+        {this.renderSheetSelectBox()}
+      </div>
+    );
     return (
       <div style={{ width: '100vw', height: '100vh', overflow: 'auto' }}>
         <Header title={title} />
