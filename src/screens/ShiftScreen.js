@@ -319,7 +319,7 @@ class ShiftScreen extends Component {
             時間：{this.state.taskDetails.time}
           </p>
         </div>
-        <div style={{ flexDirection: 'row', height: 24 }}>
+        <div style={{ flexDirection: 'row', height: 24, overflow: 'hidden' }}>
           <span style={{ fontSize: 14 }}>
             マニュアル：
           </span>
