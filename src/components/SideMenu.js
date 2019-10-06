@@ -6,7 +6,6 @@ import ImportContactsIcon from '@material-ui/icons/ImportContacts';
 import DescriptionIcon from '@material-ui/icons/Description';
 import PeopleIcon from '@material-ui/icons/People';
 import ViewComfyIcon from '@material-ui/icons/ViewComfy';
-
 import ClickOutside from './SideMenuClickOutside';
 
 

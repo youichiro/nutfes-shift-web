@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../assets/logo_clear.png'
+import logo from '../assets/logo.png'
 import '../css/NutfesLogo.css';
 
 const NutfesLogo = () => (

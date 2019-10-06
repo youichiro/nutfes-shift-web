@@ -1,0 +1,30 @@
+{
+  "PRODUCTION": {
+    "PASSWORD": "",
+    "DOMAIN": "",
+    "NUTFES_EMAIL_API_BASE_URL": "",
+    "MANUAL_API_URL": "",
+    "WEATHER_API_URL": "",
+    "SHIFT_DATA_API_BASE_URL": "",
+    "SAME_TIME_MEMBERS_API_BASE_URL": "",
+    "TIME_TABLE_API_URL": "",
+    "MEMBER_LIST_API_URL": "",
+    "CONTACT_API_URL": "",
+    "CONTACT_PAGE_URL_BASE": "",
+    "TASK_SHIFT_DATA_API_BASE_URL": ""
+  },
+  "LOCAL": {
+    "PASSWORD": "",
+    "DOMAIN": "localhost:8000",
+    "NUTFES_EMAIL_API_BASE_URL": "http://localhost:8000/shift/api/check_email",
+    "MANUAL_API_URL": "http://localhost:8000/api/manual/?format=json",
+    "WEATHER_API_URL": "http://localhost:8000/option/api/weather",
+    "SHIFT_DATA_API_BASE_URL": "http://localhost:8000/shift/api",
+    "SAME_TIME_MEMBERS_API_BASE_URL": "http://localhost:8000/shift/api/members",
+    "TIME_TABLE_API_URL": "http://localhost:8000/timetable/api",
+    "MEMBER_LIST_API_URL": "http://localhost:8000/shift/api/member_list",
+    "CONTACT_API_URL": "http://localhost:8000/contact/api",
+    "CONTACT_PAGE_URL_BASE": "http://localhost:8000/contact/",
+    "TASK_SHIFT_DATA_API_BASE_URL": "http://localhost:8000/shift/api/task_shift"
+  }
+}
